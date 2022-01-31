@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="mydisks">
+    <output-path>$PROJECT_DIR$/classes/artifacts/mydisks</output-path>
+    <root id="archive" name="mydisks.war">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="mydisks" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="lib" />
+          <element id="library" level="project" name="Java EE 6-Java EE 6" />
+        </element>
+      </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/WebRoot" />
+    </root>
+  </artifact>
+</component>
