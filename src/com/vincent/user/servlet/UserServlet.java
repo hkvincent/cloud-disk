@@ -19,6 +19,7 @@ import com.vincent.user.service.UserService;
 
 
 import cn.itcast.servlet.BaseServlet;
+import org.apache.commons.lang.StringUtils;
 
 public class UserServlet extends BaseServlet {
 	private UserService userService = new UserService();
@@ -76,7 +77,7 @@ public class UserServlet extends BaseServlet {
 		String code = (String) session.getAttribute("CHECKNUM");
 		System.out.println("code " + code);
 		this.checkCode = request.getParameter("checkCode");
-		if (checkCode.equals(code)) {
+		if (StringUtils.equals(checkCode,code)) {
 			tip = "images/MsgSent.png";
 		}
 

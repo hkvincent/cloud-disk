@@ -26,6 +26,7 @@ import com.vincent.Util.Constant;
 import com.vincent.Util.Tool;
 import com.vincent.user.domain.User;
 import com.vincent.user.service.UserService;
+import org.apache.commons.lang.StringUtils;
 
 public class UploadServlet extends HttpServlet {
 
@@ -133,8 +134,13 @@ public class UploadServlet extends HttpServlet {
 				updateUserSession(req, user);
 				// 数据表写完成了，
 				// PrintWriter out=resp.getWriter();
-				out.write("<script>alert('upload ok!');window.location.href='/mydisks/CatalogServlet?method=myCatalog&cid="
-						+ cid + "'</script>");
+				String contextPath = req.getContextPath();
+				String appendPath = "";
+				if(!StringUtils.isEmpty(contextPath)){
+					appendPath=contextPath+"/";
+				}
+				out.write("<script>alert('upload ok!');window.location.href='" + appendPath +
+						"CatalogServlet?method=myCatalog&cid=" + cid + "'</script>");
 			}
 		}
 	}

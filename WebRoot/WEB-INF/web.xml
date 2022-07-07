@@ -72,7 +72,9 @@
 	</welcome-file-list>
 
 
-
+	<listener>
+		<listener-class>com.vincent.Util.ContextListener</listener-class>
+	</listener>
 
 	<filter>
 		<filter-name>loginFilter</filter-name>

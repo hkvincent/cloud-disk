@@ -2,7 +2,8 @@
 <!DOCTYPE HTML>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<c:set var="proPath" value="${pageContext.request.contextPath}" />
+<c:set var="contextPath" value="${pageContext.request.contextPath}/" />
+<c:set var="proPath" value="${empty pageContext.request.contextPath ? '' : contextPath}" />
 <html>
 <head>
 <title>Home</title>
@@ -29,7 +30,7 @@
 		<h2>Vindisk</h2>
 		<div class="login-top">
 			<h1>Register</h1>
-			<form action="${proPath}/UserServlet?method=register" method="post">
+			<form action="${proPath}UserServlet?method=register" method="post">
 
 				<input type="text" name="userName" onfocus="this.value = '';">
 				<input type="password" name="password" onfocus="this.value = '';">
@@ -41,7 +42,7 @@
 		</div>
 		<div class="login-bottom">
 			<h3>
-				Old User &nbsp;<a href="${proPath}/login.jsp">Login</a>&nbsp Here
+				Old User &nbsp;<a href="${proPath}login.jsp">Login</a>&nbsp Here
 			</h3>
 		</div>
 	</div>

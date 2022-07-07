@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<c:set var="proPath" value="${pageContext.request.contextPath}" />
+<c:set var="contextPath" value="${pageContext.request.contextPath}/" />
+<c:set var="proPath" value="${empty pageContext.request.contextPath ? '' : contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,14 +16,14 @@
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/bootstrap.css">
 <script type="text/javascript"
-	src='<c:url value="/js/jquery.min.js"></c:url>'></script>
+	src='<c:url value="${proPath}js/jquery.min.js"></c:url>'></script>
 
 
 </head>
 
 <body>
 	your update file is over size.
-	<a href="${proPath }/index.jsp">back to home page</a>
+	<a href="${proPath}index.jsp">back to home page</a>
 </body>
 
 </html>

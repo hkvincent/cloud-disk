@@ -3,14 +3,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:set var="proPath" value="${pageContext.request.contextPath}"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}/" />
+<c:set var="proPath" value="${empty pageContext.request.contextPath ? '' : contextPath}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>File/Folder Move</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link href="${proPath}/css/general.css" rel="stylesheet" type="text/css"/>
-    <link href="${proPath}/css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="${proPath}css/general.css" rel="stylesheet" type="text/css"/>
+    <link href="${proPath}css/main.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <form method="post" action="" name="listForm">
@@ -34,14 +35,14 @@
                                 out.print("&nbsp&nbsp&nbsp");
                             }
                         %>
-                        <img src="${proPath}/images/menu_minus.gif"
+                        <img src="${proPath}images/menu_minus.gif"
                              id="icon_${list.cLevel }_${list.cId }" width="9" height="9"
                              border="0" style="margin-left:0em" onclick="rowClicked(this)">
                         <span>
                             <c:choose>
                                 <c:when test="${fileType == true}">
                                     <c:if test="${!list.highlight}">
-                                        <a href="${proPath}/CatalogServlet?method=moveCatalog&do=post&mcid=${list.cId }&fid=${id}&type=file">
+                                        <a href="${proPath}CatalogServlet?method=moveCatalog&do=post&mcid=${list.cId }&fid=${id}&type=file">
                                                 ${list.cName }
                                         </a>
                                     </c:if>
@@ -50,7 +51,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <c:if test="${!list.highlight}">
-                                        <a href="${proPath}/CatalogServlet?method=moveCatalog&do=post&mcid=${list.cId }&cid=${id}&type=folder">
+                                        <a href="${proPath}CatalogServlet?method=moveCatalog&do=post&mcid=${list.cId }&cid=${id}&type=folder">
                                                 ${list.cName }
                                         </a>
                                     </c:if>
@@ -73,7 +74,7 @@
      * 折叠分类列表
      */
     var imgPlus = new Image();
-    imgPlus.src = "${proPath}/images/menu_plus.gif";
+    imgPlus.src = "${proPath}images/menu_plus.gif";
 
     function rowClicked(obj) {
         // 当前图像
@@ -131,8 +132,8 @@
         //做多一重逻辑检验。确保剪嘴图标到被修改为正确的图标
         for (i = 0; i < obj.cells[0].childNodes.length; i++) {
             var imgObj = obj.cells[0].childNodes[i];
-            if (imgObj.tagName == "IMG" && imgObj.src != '${proPath}/images/menu_arrow.gif') {
-                imgObj.src = (imgObj.src == imgPlus.src) ? '${proPath}/images/menu_minus.gif'
+            if (imgObj.tagName == "IMG" && imgObj.src != '${proPath}images/menu_arrow.gif') {
+                imgObj.src = (imgObj.src == imgPlus.src) ? '${proPath}images/menu_minus.gif'
                     : imgPlus.src;
             }
         }

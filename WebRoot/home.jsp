@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="proPath" value="${pageContext.request.contextPath}"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}/" />
+<c:set var="proPath" value="${empty pageContext.request.contextPath ? '' : contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +61,7 @@
                 var iids = $(this).attr("iid");
 
                 $.ajax({
-                    url: "/mydisks/FileServlet",
+                    url: "${proPath}mydisks/FileServlet",
                     data: {
                         method: "deleteFile",
                         fid: iids
@@ -100,19 +101,19 @@
                     <!-- <li class="nav-item active"><a class="nav-link" href="#">主页<span
                 class="sr-only">(current)</span></a></li> -->
                     <li class="nav-item"><a class="nav-link"
-                                            href="<c:url value='/CatalogServlet?method=myCatalog' />">My file<span
+                                            href="<c:url value='${proPath}CatalogServlet?method=myCatalog' />">My file<span
                             class="sr-only">(current)</span> </a>
                     </li>
 
                     <li class="nav-item"><a class="nav-link"
-                                            href="<c:url value='/SharedServlet?method=myShared' />">My share</a>
+                                            href="<c:url value='${proPath}SharedServlet?method=myShared' />">My share</a>
                     </li>
 
                     <li class="nav-item"><a class="nav-link"
-                                            href="<c:url value='/SharedServlet?method=myShared' />">public share</a>
+                                            href="<c:url value='${proPath}SharedServlet?method=myShared' />">public share</a>
                     </li>
                     <li class="nav-item"><a class="nav-link"
-                                            href="<c:url value='/UserServlet?method=quit' />">Logout</a>
+                                            href="<c:url value='${proPath}UserServlet?method=quit' />">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -133,15 +134,15 @@
                             </tr>
                             <tr>
                                 <td><a
-                                        href="<c:url value='/SharedServlet?method=myShared' />">${sessionScope.session_user.shareCount
+                                        href="<c:url value='SharedServlet?method=myShared' />">${sessionScope.session_user.shareCount
                                         }</a>
                                 </td>
                                 <td><a
-                                        href="<c:url value='/FollowServlet?method=myFollow' />">${sessionScope.session_user.followcount
+                                        href="<c:url value='FollowServlet?method=myFollow' />">${sessionScope.session_user.followcount
                                         }</a>
                                 </td>
                                 <td><a
-                                        href="<c:url value='/FollowServlet?method=myFans' />">${sessionScope.session_user.follower}</a>
+                                        href="<c:url value='FollowServlet?method=myFans' />">${sessionScope.session_user.follower}</a>
                                 </td>
                             </tr>
                         </table>
@@ -153,7 +154,7 @@
                     <!--右侧内容区域-->
                     <div class="rightarea">
                         <div class="righthead">
-                            <p>my file</p>
+<%--                            <p>my file</p>--%>
                             <button onclick="upload()" type="button"
                                     class="btn btn-primary-outline btn-sm">
 									<span><i
@@ -176,11 +177,11 @@
                                 <p class="myprogress_text">0</p>
                             </div>
                         </div>
-                        <a href="<c:url value='/CatalogServlet?method=myCatalog' />">my file</a>>>
+                        <a href="<c:url value='CatalogServlet?method=myCatalog' />">my file</a>>>
                         <!--面包屑指引栏  -->
                         <c:forEach items="${path}" var="p">
                             <a
-                                    href="<c:url value='/CatalogServlet?method=myCatalog&cid=${p.cId }' /> ">${p.cName}</a>>></c:forEach>
+                                    href="<c:url value='CatalogServlet?method=myCatalog&cid=${p.cId }' /> ">${p.cName}</a>>></c:forEach>
 
                         <table class="table fp">
                             <tr>
@@ -205,10 +206,10 @@
                             <c:forEach items="${catalog.children }" var="c">
                                 <tr>
                                     <td>
-                                        <img width="50" height="30" src='<c:url value="/images/1024.png"></c:url>'/>
+                                        <img width="50" height="30" src='<c:url value="images/1024.png"></c:url>'/>
                                     </td>
                                     <td>
-                                        <a href='<c:url value="/CatalogServlet?method=myCatalog&cid=${c.cId }"></c:url>'>${c.cName }
+                                        <a href='<c:url value="CatalogServlet?method=myCatalog&cid=${c.cId }"></c:url>'>${c.cName }
                                         </a>
                                     </td>
                                     <td>${c.cDate }</td>
@@ -216,12 +217,12 @@
                                     <td>folder</td>
                                     <td></td>
                                     <td>
-                                        <a href='<c:url value="/CatalogServlet?method=deleteCatalog&cid=${c.cId }&pid=${c.parent.cId }&name=${c.cName }" ></c:url>'
+                                        <a href='<c:url value="CatalogServlet?method=deleteCatalog&cid=${c.cId }&pid=${c.parent.cId }&name=${c.cName }" ></c:url>'
                                            onclick="return confirm('are you sure?')">delete</a>
                                         <a href='javascript:void(0)'
                                            onclick="changeName('0','${c.cId}','${c.parent.cId }')">rename</a>
                                         <a name="move"
-                                           href="${proPath}/CatalogServlet?method=moveCatalog&cid=${c.cId}&do=get&type=folder">move</a>
+                                           href="${proPath}CatalogServlet?method=moveCatalog&cid=${c.cId}&do=get&type=folder">move</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -229,7 +230,7 @@
                             <!--再展示文件  -->
                             <c:forEach items="${catalog.myFile }" var="f">
                             <tr class="${f.fId } abc">
-                                <td><img width="40" height="20" src='<c:url value="/images/02.png"></c:url>'/></td>
+                                <td><img width="40" height="20" src='<c:url value="images/02.png"></c:url>'/></td>
                                 <td>${f.fName }</td>
                                 <td>${f.fUploadtime }</td>
                                 <td><fmt:formatNumber type="number" value="${f.fSize/1048576}"
@@ -240,8 +241,8 @@
                                 <td jq="true"><a href="#" iid=${f.fId }>delete</a>
                                     <a href='javascript:void(0)' onclick="changeName('1','${f.fId }')">rename</a>
                                     <a name="move"
-                                       href="${proPath}/CatalogServlet?method=moveCatalog&fid=${f.fId}&do=get&type=file">move</a>
-                                    <a href='<c:url value="/DownLoadServlet?fid=${f.fId }&cid=${c.cId }"></c:url>'>download</a>
+                                       href="${proPath}CatalogServlet?method=moveCatalog&fid=${f.fId}&do=get&type=file">move</a>
+                                    <a href='<c:url value="DownLoadServlet?fid=${f.fId }&cid=${c.cId }"></c:url>'>download</a>
                                 </td>
                                 </c:forEach>
                                 </c:otherwise>
@@ -350,13 +351,13 @@
         }
         if (name) {
             if (flag == 0) {
-                location.href = "${proPath}/CatalogServlet?method=changeName&cid="
+                location.href = "${proPath}CatalogServlet?method=changeName&cid="
                     + cId
                     + "&name="
                     + encodeURI(encodeURI(name) + "&pid=" + pId);
             } else if (flag == 1) {
                 $.ajax({
-                    url: "/mydisks/FileServlet",
+                    url: "mydisks/FileServlet",
                     data: {
                         method: "changeName",
                         fid: cId,
@@ -418,7 +419,7 @@
     function getProgressBar() {
         var timestamp = (new Date()).valueOf();
         //上传的时候不停调用后台的progress servlet来获取上传进度
-        $.getJSON("<c:url value='/ProgressServlet' />", function (json) {
+        $.getJSON("<c:url value='ProgressServlet' />", function (json) {
             //获取html中的id为myprogress的div之其子元素的class含有的progress的子元素
             var myprogress = $('#myprogress').children(".progress");
             //获取进度条的文字输入位置
@@ -457,7 +458,6 @@
         fileicontype.each(function (index, element) {
             element.className = checktype(element.innerText);
         });
-
         //获取类型
         function checktype(filename) {
             filename = filename.toLocaleLowerCase();

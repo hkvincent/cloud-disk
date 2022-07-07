@@ -2,7 +2,8 @@
 <!DOCTYPE HTML>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<c:set var="proPath" value="${pageContext.request.contextPath}" />
+<c:set var="contextPath" value="${pageContext.request.contextPath}/" />
+<c:set var="proPath" value="${empty pageContext.request.contextPath ? '' : contextPath}" />
 <html>
 <head>
 <title>Home</title>
@@ -22,14 +23,14 @@
 <link
 	href='http://fonts.useso.com/css?family=Droid+Serif:400,700,400italic,700italic'
 	rel='stylesheet' type='text/css'>
-<!--Google Fonts-->
+Google Fonts-->
 </head>
 <body>
 	<div class="login">
 		<h2>Vindisk</h2>
 		<div class="login-top">
 			<h1>LOGIN FORM</h1>
-			<form action="${proPath}/UserServlet?method=login" method="post"
+			<form action="${proPath}UserServlet?method=login" method="post"
 				onsubmit="return toVaild()">
 				<input type="text" name="userName" onfocus="this.value = '';">
 				<input type="password" name="password" onfocus="this.value = '';">
@@ -59,7 +60,7 @@
 		</div>
 		<div class="login-bottom">
 			<h3>
-				New User &nbsp;<a href="${proPath}/register.jsp">Register</a>&nbsp
+				New User &nbsp;<a href="${proPath}register.jsp">Register</a>&nbsp
 				Here
 			</h3>
 		</div>
@@ -94,7 +95,7 @@
 			if (checkCode.length == 4) {
 				var ajax = createAJAX();
 				var method = "POST";
-				var uri = "${pageContext.request.contextPath}/UserServlet?method=check&time="
+				var uri = "${proPath}UserServlet?method=check&time="
 						+ new Date().getTime();
 				ajax.open(method, uri);
 				ajax.setRequestHeader("content-type",
